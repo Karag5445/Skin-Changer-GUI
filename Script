@@ -49,13 +49,28 @@ local ItemsESP = Tab1:CreateToggle({
 })
 
 
-local FB = Tab1:CreateButton({
-    Name = "",
+local SetDefaultSkin = Tab1:CreateButton({
+    Name = "Set default skin",
     Callback = function()
         
+        local character = workspace:FindFirstChild(nickname, true) 
+        if character and character:IsA("Model") then
+            local parts = character:GetChildren()
+
+            for _, part in ipairs(parts) do
+                if part:IsA("Accessory")
+                    part:Destroy()    
+                elseif part.Name == "Shirt" then
+                    part.ShirtTemplate = " "
+                elseif part.Name == "Pants" then
+                    part.PantsTemplate = " "
+                end
+            end
+        end
+
         Rayfield:Notify({
-            Title = "",
-            Content = "",
+            Title = "Console",
+            Content = "Successfully ✅",
             Duration = 3
         })
     end,
