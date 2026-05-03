@@ -1,0 +1,114 @@
+local player = game.Players.LocalPlayer
+local nickname = player.Name
+
+local Rayfield
+local success, errorMessage = pcall(function()
+    Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+end)
+
+if not success then
+    warn("Rayfield load failed: " .. errorMessage)
+    return
+end
+
+local Window = Rayfield:CreateWindow({
+    Name = "SkinChangerGUI",
+    LoadingTitle = "Wait sec...",
+    LoadingSubtitle = "by KaragFerli5445",
+    Icon = 6314774984,
+    ToggleUIKeybind = "K",
+    Theme = "AmberGlow",
+    KeySystem = false,
+})
+
+local Tab1 = Window:CreateTab("Main", 7539983773)
+local Section = Tab1:CreateSection("Section with functions")
+
+local ItemsESP = Tab1:CreateToggle({
+    Name = "",
+    CurrentValue = false,
+    Flag = "",
+    Callback = function(Value)
+        
+        if Value then
+
+            Rayfield:Notify({
+                Title = "Console",
+                Content = "Item ESP ✅",
+                Duration = 3
+            })
+        else
+            
+            Rayfield:Notify({
+                Title = "Console",
+                Content = "Item ESP ❌",
+                Duration = 3
+            })
+        end
+    end,
+})
+
+
+local FB = Tab1:CreateButton({
+    Name = "",
+    Callback = function()
+        
+        Rayfield:Notify({
+            Title = "",
+            Content = "",
+            Duration = 3
+        })
+    end,
+})
+
+local RemovePart = Tab1:CreateDropdown({
+    Name = "Remove body part",
+    Options = {"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"},
+    CurrentOption = {"---"},
+    MultipleOptions = false,
+    Flag = "PlayerDropdown",
+    Callback = function(Options)
+        print("Выбран: " .. Options[1])
+      
+        local character = workspace:FindFirstChild(nickname, true) 
+        if character and character:IsA("Model") then
+            local parts = character:GetChildren()
+
+            for _, part in ipairs(parts) do
+                if Options[1] == part.Name then
+                    part:Destroy()    
+                end
+            end
+        end
+        
+        Rayfield:Notify({
+                Title = "Console",
+                Content = "Part removed ✅",
+                Duration = 3
+        })
+    end,
+})
+
+local InputID = Tab1:CreateInput({
+    Name = "Enter item ID",
+    PlaceholderText = "Enter smth here",
+    RemoveTextAfterFocusLost = false,
+    Flag = "InputID",
+    Callback = function(Text)
+        print("Введено: " .. Text)
+
+
+
+        Rayfield:Notify({
+                Title = "Console",
+                Content = "Successfully ✅",
+                Duration = 3
+        })
+    end,
+})
+
+Rayfield:Notify({
+    Title = "Greeting",
+    Content = "Welcome, " .. nickname,
+    Duration = 3
+})
