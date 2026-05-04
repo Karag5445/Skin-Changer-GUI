@@ -21,62 +21,73 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false,
 })
 
-local Tab1 = Window:CreateTab("Main", 7539983773)
-local Section = Tab1:CreateSection("Section with functions")
+local Tab1 = Window:CreateTab("Main", 15081504003)
+local Tab2 = Window:CreateTab("Remove", 15928769960)
+local Tab3 = Window:CreateTab("Saving", 113219401636939)
+-- local Section = Tab1:CreateSection("Section with functions")
 
-local ItemsESP = Tab1:CreateToggle({
-    Name = "",
-    CurrentValue = false,
-    Flag = "",
-    Callback = function(Value)
-        
-        if Value then
-
-            Rayfield:Notify({
-                Title = "Console",
-                Content = "Item ESP ✅",
-                Duration = 3
-            })
-        else
-            
-            Rayfield:Notify({
-                Title = "Console",
-                Content = "Item ESP ❌",
-                Duration = 3
-            })
-        end
-    end,
-})
-
-
-local SetDefaultSkin = Tab1:CreateButton({
-    Name = "Set default skin",
-    Callback = function()
-        
-        local character = workspace:FindFirstChild(nickname, true) 
-        if character and character:IsA("Model") then
-            local parts = character:GetChildren()
-
-            for _, part in ipairs(parts) do
-                if part:IsA("Accessory")
-                    part:Destroy()    
-                elseif part.Name == "Shirt" then
-                    part.ShirtTemplate = " "
-                elseif part.Name == "Pants" then
-                    part.PantsTemplate = " "
-                end
-            end
-        end
+local AddAcc = Tab1:CreateInput({
+    Name = "Add accessory by ID",
+    PlaceholderText = "Enter ID...",
+    RemoveTextAfterFocusLost = false, 
+    Flag = "AddAcc",
+    Callback = function(Text)
+        print("Введено: " .. Text)
 
         Rayfield:Notify({
-            Title = "Console",
-            Content = "Successfully ✅",
-            Duration = 3
+                Title = "Console",
+                Content = "Added ✅",
+                Duration = 3
         })
     end,
 })
 
-local RemovePart = Tab1:CreateDropdown({
+
+local StealSkin = Tab1:CreateInput({
+    Name = "Steal Skin",
+    PlaceholderText = "Enter Username...",
+    RemoveTextAfterFocusLost = false, 
+    Flag = "StealSkin",
+    Callback = function(Text)
+        print("Введено: " .. Text)
+
+        Rayfield:Notify({
+                Title = "Console",
+                Content = "Stolen ✅",
+                Duration = 3
+        })
+    end,
+})
+
+local SaveAsSkin = Tab1:CreateButton({
+    Name = "Save As Skin",
+    Callback = function()
+        print("Кнопка нажата")
+
+        Rayfield:Notify({
+                Title = "Console",
+                Content = "Saved ✅",
+                Duration = 3
+        })
+    end,
+})
+
+local ReturnSkin = Tab1:CreateButton({
+    Name = "Return old skin (Load)",
+    Callback = function()
+        print("Кнопка нажата")
+
+        Rayfield:Notify({
+                Title = "Console",
+                Content = "Loaded ✅",
+                Duration = 3
+        })
+    end,
+})
+
+
+
+local RemovePart = Tab2:CreateDropdown({
     Name = "Remove body part",
     Options = {"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"},
     CurrentOption = {"---"},
@@ -99,24 +110,6 @@ local RemovePart = Tab1:CreateDropdown({
         Rayfield:Notify({
                 Title = "Console",
                 Content = "Part removed ✅",
-                Duration = 3
-        })
-    end,
-})
-
-local InputID = Tab1:CreateInput({
-    Name = "Enter item ID",
-    PlaceholderText = "Enter smth here",
-    RemoveTextAfterFocusLost = false,
-    Flag = "InputID",
-    Callback = function(Text)
-        print("Введено: " .. Text)
-
-
-
-        Rayfield:Notify({
-                Title = "Console",
-                Content = "Successfully ✅",
                 Duration = 3
         })
     end,
