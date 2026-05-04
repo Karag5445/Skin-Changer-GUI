@@ -33,7 +33,39 @@ local AddAcc = Tab1:CreateInput({
     Flag = "AddAcc",
     Callback = function(Text)
         print("Введено: " .. Text)
+        local InsertService = game:GetService("InsertService")
+        local Players = game:GetService("Players")
 
+        Players.PlayerAdded:Connect(function(player)
+            player.Chatted:Connect(function(message)
+                local cmd, idStr = string.match(message, "^/(%w+)%s+(%d+)$")
+                if cmd == "set" and idStr then
+                    local assetId = tonumber(idStr)
+                    if assetId then
+                        local success, model = pcall(function()
+                            return InsertService:LoadAsset(assetId)
+                        end)
+                
+                        if success and model then
+                            local accessory = model:FindFirstChildWhichIsA("Accessory")
+                            local character = player.Character
+                    
+                            if accessory and character then
+                                accessory.Parent = character
+                                print("Аксессуар " .. assetId .. " надет на " .. player.Name)
+                            else
+                                player:Kick("Не удалось найти аксессуар или персонажа")
+                            end
+
+                            task.wait(0.5)
+                            model:Destroy()
+                        else
+                            player:Kick("Неверный ID аксессуара")
+                        end
+                    end
+                end
+            end)
+        end)
         Rayfield:Notify({
                 Title = "Console",
                 Content = "Added ✅",
